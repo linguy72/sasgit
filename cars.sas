@@ -14,3 +14,5 @@ cars
 wooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
 
 another wooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+wx6 release dll test
