@@ -17,4 +17,4 @@ another wooooooooooooooooooooooooooooooooooooooooooooooooooooooo
 
 wx6 release dll test
 
-w32 dll test/pulltest asdf
+w32 dll test/pulltest asdf qwerty
