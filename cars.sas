@@ -16,3 +16,5 @@ wooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
 another wooooooooooooooooooooooooooooooooooooooooooooooooooooooo
 
 wx6 release dll test
+
+w32 dll test
