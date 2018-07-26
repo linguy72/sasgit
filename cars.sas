@@ -22,3 +22,5 @@ w32 dll test/pulltest asdf qwerty
 blah
 
 20
+
+asdf
