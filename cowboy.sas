@@ -1,4 +1,4 @@
-This sas file creates a cowboy hat graphic using proc g3d and some math. zzzz
+This saas file creates a cowboy hat graphic using proc g3d and some math. zzzz
 goptions cback=black colors=(white cyan magenta gold yellow);
 
 data hat;
