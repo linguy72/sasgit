@@ -1,2 +1,2 @@
-anotherNewFile.sast
+anotherNewFile.saszt
 qwerty
