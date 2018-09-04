@@ -1,2 +1,2 @@
-dssanotherNewFile.saszt
-qwerty
+//another new file
+proc print data=sashelp.cars;run;

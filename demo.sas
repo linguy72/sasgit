@@ -1,8 +1,1 @@
-proc print; data=sashelp.cars; run; asdf 123
-freak
-
-asdsad
-ssshhkk
-
-
-push test1
+proc print data=sashelp.cars; run;

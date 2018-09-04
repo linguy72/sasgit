@@ -1,1 +1,2 @@
-new sas programa
+/*new sas program*/
+proc print data=sashelp.class;run;
