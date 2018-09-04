@@ -1,3 +1,3 @@
 sasdf proc sql
 select * from sashelp.cars;
-run; /* test 3*/
+run; /* test 0*/
