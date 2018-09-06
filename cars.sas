@@ -1,3 +1,3 @@
 proc sql
-select * from sashelp.class;
+select * from sashelp.class; /* from sasgit001 */
 run; 
