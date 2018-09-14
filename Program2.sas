@@ -1,3 +1,3 @@
 proc print data=sashelp.class;
-   var weight height;
+   var weight;
 run;
