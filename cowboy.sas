@@ -16,4 +16,4 @@ proc g3d data=hat;
    plot y*x=z / ctop=yellow ctext=white;
 run; run;run;
 
-11
+12
