@@ -17,3 +17,5 @@ proc print data=sashelp.cars; where make="Jaguar"; run;
 
 jennifer;
 jennifer;
+
+warnings
