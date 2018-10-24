@@ -381,53 +381,10 @@ sap.ui.define([
 
 
         },
-
-
-
-        createJoinMatrixLayout: function (oController) {
-
-
-
-            var oJoinMatrixLayout = new MatrixLayout({
-
-                columns: 5, width: "100%",
-
-            });
-
-            oJoinMatrixLayout.setWidths(["100%", "32px", "100%", "32px", "32px"]);
-
-            this.oJoinMatrixLayout = oJoinMatrixLayout;
-
-
-
-            oJoinMatrixLayout.addDelegate({
-
-                onAfterRendering: $.proxy(function (oControl, oController) {
-
-                    var layoutDomNode = oControl.getDomRef();
-
-
-
-                    jQuery(layoutDomNode).on('mouseleave', jQuery.proxy(function (e) {
-
-                        return this.onJoinMatrixLayoutMouseLeave(e);
-
-                    }, this));
-
-
-
-                }, this, oJoinMatrixLayout, oController)
-
-            });
-
-
-
-            return oJoinMatrixLayout;
-
-        },
-
-
-
+		newFunction: function(code, dude){
+			console.log("freak");
+				
+		},
         showExpressionEditor: function (code, callback) {
 
             this.oController.showEditExpressionEditor(code, callback);
