@@ -4,6 +4,6 @@ histogram msrp;
 density msrp;
 run;
 
-title "print title";
+title "listing of class";
 proc print data=sashelp.class;
 run;
