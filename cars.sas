@@ -14,16 +14,3 @@ sshtest1
 az1
 
 proc print data=sashelp.cars; where make="Jaguar"; run;
-
-jennifer;
-jennifer;
-
-warnings
-lax
-
-more and more changes;
-change;
-dude;
-updates;
-freak
-https
