@@ -1,0 +1,1 @@
+libname MEGA '\\rdcsmb\bi_tools\bigdata\MegaCorp';
