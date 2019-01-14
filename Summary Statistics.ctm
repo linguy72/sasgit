@@ -1,0 +1,1110 @@
+<?xml version="1.0" encoding="UTF-8"?><Task schemaVersion="5.4">
+    <Registration>
+        <Name>Summary Statistics</Name>
+        <Description>The Summary Statistics task provides descriptive statistics for variables across all observations and within groups of observations. It also generates histograms and box plots.</Description>
+        <GUID>9EB092ED-BD39-410D-8934-6B2D7A6D871C</GUID>
+        <Procedures>MEANS UNIVARIATE BOXPLOT</Procedures>
+        <Version>3.8</Version>
+        <Links>
+            <Link href="http://documentation.sas.com/?softwareId=STUDIOMID&amp;softwareVersion=3.8&amp;softwareContextId=tasks&amp;requestor=inapp">SAS Studio Task Reference Guide</Link>
+            <Link href=""> </Link>
+            <Link href=""> </Link>
+            <Link href="http://documentation.sas.com/?softwareId=MVADOC&amp;softwareVersion=3.8_9.4&amp;softwareContextId=proc_means&amp;requestor=inapp">The MEANS Procedure</Link>
+            <Link href=""> </Link>
+            <Link href=""> </Link>
+            <Link href="http://documentation.sas.com/?softwareId=MVADOC&amp;softwareVersion=3.8_9.4&amp;softwareContextId=proc_univariate&amp;requestor=inapp">The UNIVARIATE Procedure</Link>
+            <Link href=""> </Link>
+            <Link href=""> </Link>
+            <Link href="http://documentation.sas.com/?softwareId=ANMVA&amp;softwareVersion=3.8_15.1&amp;softwareContextId=proc_boxplot&amp;requestor=inapp">The BOXPLOT Procedure</Link>
+            <Link href=""> </Link>
+            <Link href=""> </Link>
+            <Link href="http://support.sas.com/training/studio">SAS Tutorials</Link>
+        </Links>
+    </Registration>
+
+    <Metadata>
+        <DataSources>
+            <DataSource name="DATASOURCE">
+                <Roles>
+                    <Role exclude="classVariables,byVariables,freqVariable,weightVariable" maxVars="0" minVars="1" name="analysisVariables" order="true" type="N">Analysis variables:</Role>
+                    <Role exclude="analysisVariables,byVariables,freqVariable,weightVariable" maxVars="0" minVars="0" name="classVariables" order="true" type="A">Classification variables:</Role>
+                    <Role exclude="analysisVariables,classVariables,freqVariable,weightVariable" maxVars="0" minVars="0" name="byVariables" order="true" type="A">Group analysis by:</Role>
+                    <Role exclude="analysisVariables,classVariables,byVariables,weightVariable" maxVars="1" minVars="0" name="freqVariable" type="N">Frequency count:</Role>
+                    <Role exclude="analysisVariables,classVariables,byVariables,freqVariable" maxVars="1" minVars="0" name="weightVariable" type="N">Weight variable:</Role>
+                </Roles>
+            </DataSource>
+        </DataSources>
+
+        <Options>
+            <Option inputType="string" name="dataTab">DATA</Option> 
+            <Option inputType="string" name="optionsTab">OPTIONS</Option> 
+            <Option inputType="string" name="outputTab">OUTPUT</Option> 
+            <Option inputType="string" name="dataGroup">DATA</Option> 
+            <Option inputType="string" name="rolesGroup">ROLES</Option> 
+            <Option inputType="string" name="addRolesGroup">ADDITIONAL ROLES</Option>
+            
+            <Option inputType="string" name="stats">STATISTICS</Option>
+            <!-- Basic statistics -->
+            <Option inputType="string" name="basicStats">Basic Statistics</Option>
+            <Option defaultValue="1" inputType="checkbox" name="mean">Mean</Option>
+            <Option defaultValue="1" inputType="checkbox" name="std">Standard deviation</Option>
+            <Option defaultValue="1" inputType="checkbox" name="min">Minimum value</Option>
+            <Option defaultValue="1" inputType="checkbox" name="max">Maximum value</Option>
+            <Option defaultValue="0" inputType="checkbox" name="median">Median</Option>
+            <Option defaultValue="1" inputType="checkbox" name="nobs">Number of observations</Option>
+            <Option defaultValue="0" inputType="checkbox" name="missing">Number of missing values</Option>
+            <Option defaultValue="MDBF" inputType="combobox" name="maxDec" width="100px">Maximum decimal places:</Option>
+                <Option inputType="string" name="MDBF">Best fit</Option>
+                <Option inputType="string" name="MD0">0</Option>
+                <Option inputType="string" name="MD1">1</Option>
+                <Option inputType="string" name="MD2">2</Option>
+                <Option inputType="string" name="MD3">3</Option>
+                <Option inputType="string" name="MD4">4</Option>
+                <Option inputType="string" name="MD5">5</Option>
+                <Option inputType="string" name="MD6">6</Option>
+                <Option inputType="string" name="MD7">7</Option>
+                <Option inputType="string" name="MD8">8</Option>
+
+            <!-- Additional statistics -->
+            <Option inputType="string" name="addStats">Additional Statistics</Option>
+            <Option defaultValue="0" inputType="checkbox" name="stdErr">Standard error</Option>
+            <Option defaultValue="0" inputType="checkbox" name="variance">Variance</Option>
+            <!-- PROC MEANS will not compute MODE when a weight variable is active. -->
+            <Option defaultValue="0" inputType="checkbox" name="mode">Mode</Option>
+            <Option defaultValue="0" inputType="checkbox" name="range">Range</Option>
+            <Option defaultValue="0" inputType="checkbox" name="sum">Sum</Option>
+            <!-- Sum of weights is only available with the WEIGHT statement. -->
+            <Option defaultValue="0" inputType="checkbox" name="sumWeights">Sum of weights</Option>
+            <Option defaultValue="0" inputType="checkbox" name="conf">Confidence limits for the mean</Option>
+			<Option defaultValue="cf95" indent="1" inputType="combobox" name="confLevel" width="100px">Confidence level:</Option>
+				<Option inputType="string" name="cf99">99%</Option>
+				<Option inputType="string" name="cf95">95%</Option>
+				<Option inputType="string" name="cf90">90%</Option>
+            <Option inputType="string" name="confLevelCustomChoice">Use custom value</Option>
+            <Option decimalPlaces="0,15" defaultValue="95" indent="2" inputType="numbertext" invalidMessage="Enter a number greater than 0 and less than 100." maxValue="99.99999999999999" minValue="0.000000000000000000000001" missingMessage="Enter a number greater than 0 and less than 100." name="confValue" promptMessage="Enter a number greater than 0 and less than 100." rangeMessage="Enter a number greater than 0 and less than 100." required="true" width="6em">Custom confidence level (%):</Option>
+            <!-- Don't need to surface t-statistics and Prob since it is covered in T-test task. -->
+            <Option defaultValue="0" inputType="checkbox" name="coef">Coefficient of variation</Option>
+            <Option defaultValue="0" inputType="checkbox" name="css">Corrected sum of squares</Option>
+            <Option defaultValue="0" inputType="checkbox" name="uss">Uncorrected sum of squares</Option>
+            <!-- Skewness and Kurtosis are not available with the WEIGHT statement. -->
+            <Option defaultValue="0" inputType="checkbox" name="skewness">Skewness</Option>
+            <Option defaultValue="0" inputType="checkbox" name="kurtosis">Kurtosis</Option>
+
+            <!-- Percentile Statistics -->
+            <Option inputType="string" name="percentiles">Percentiles</Option>
+            <Option defaultValue="0" inputType="checkbox" name="P1">1st</Option>
+            <Option defaultValue="0" inputType="checkbox" name="P5">5th</Option>
+            <Option defaultValue="0" inputType="checkbox" name="P10">10th</Option>
+            <Option defaultValue="0" inputType="checkbox" name="Q1">Lower quartile</Option>
+            <Option defaultValue="0" inputType="checkbox" name="median1">Median</Option>
+            <Option defaultValue="0" inputType="checkbox" name="Q3">Upper quartile</Option>
+            <Option defaultValue="0" inputType="checkbox" name="P90">90th</Option>
+            <Option defaultValue="0" inputType="checkbox" name="P95">95th</Option>
+            <Option defaultValue="0" inputType="checkbox" name="P99">99th</Option>
+            <Option defaultValue="0" inputType="checkbox" name="qrange">Interquartile range</Option>
+            <!-- Use QMETHOD=OS when a weight variable is active. -->
+            <Option defaultValue="QMOS" inputType="combobox" name="quantile">Quantile method:</Option>
+                <Option inputType="string" name="QMOS">Order statistics</Option>
+                <Option inputType="string" name="QMPPA">Piecewise-parabolic algorithm</Option>
+            <Option defaultValue="QMOSWGT" inputType="combobox" name="quantileWgt">Quantile method:</Option>
+                <Option inputType="string" name="QMOSWGT">Order statistics</Option>
+
+            <Option inputType="string" name="detailsGroup">DETAILS</Option>
+            <!-- CLM, STDERR, T, and PROBT require that VARDEF=DF -->
+            <Option defaultValue="DDOF" inputType="combobox" name="divisor">Divisor for standard deviation and variance:</Option>
+                <Option inputType="string" name="DDOF">Degrees of freedom</Option>
+                <Option inputType="string" name="DNOO">Number of observations</Option>
+            <!-- DSOWM1WGT and DSOWWGT are applicable with weight variable -->
+            <Option defaultValue="DDOFWGT" inputType="combobox" name="divisorWgt">Divisor for standard deviation and variance:</Option>
+                <Option inputType="string" name="DDOFWGT">Degrees of freedom</Option>
+                <Option inputType="string" name="DNOOWGT">Number of observations</Option>
+                <Option inputType="string" name="DSOWM1WGT">Sum of weights minus one</Option>
+                <Option inputType="string" name="DSOWWGT">Sum of weights</Option>
+
+            <Option inputType="string" name="plots">PLOTS</Option>
+            <Option indent="1" inputType="string" name="noplotNote">Note: Plots are not available when weight variable is specified.</Option>
+            <Option inputType="string" name="noplotNote1">Note: Plots are not available when weight variable is specified.</Option>
+            <Option defaultValue="0" inputType="checkbox" name="hist">Histogram</Option>
+                <Option defaultValue="0" indent="1" inputType="checkbox" name="normalDensityPlot">Add normal density curve</Option>
+                <Option defaultValue="0" indent="1" inputType="checkbox" name="kernelDensityPlot">Add kernel density estimate</Option>
+                <Option defaultValue="0" indent="1" inputType="checkbox" name="histogramInset">Add inset statistics</Option>
+                <Option defaultValue="histogramInsetPositionNW" indent="2" inputType="combobox" name="histogramInsetPosition">Position at:</Option>
+                    <Option inputType="string" name="histogramInsetPositionN">Top</Option>
+                    <Option inputType="string" name="histogramInsetPositionNE">Upper right</Option>
+                    <Option inputType="string" name="histogramInsetPositionE">Right</Option>
+                    <Option inputType="string" name="histogramInsetPositionSE">Lower right</Option>
+                    <Option inputType="string" name="histogramInsetPositionS">Bottom</Option>
+                    <Option inputType="string" name="histogramInsetPositionSW">Lower left</Option>
+                    <Option inputType="string" name="histogramInsetPositionW">Left</Option>
+                    <Option inputType="string" name="histogramInsetPositionNW">Upper left</Option>
+            <Option defaultValue="0" inputType="checkbox" name="boxPlot">Comparative box plot</Option>
+            <Option indent="1" inputType="string" name="boxPlotNote">Note: Plot is available when classification variable is specified.</Option>
+                <Option defaultValue="0" indent="1" inputType="checkbox" name="boxplotInset">Add overall inset statistics</Option>
+                <Option defaultValue="boxplotInsetPositionNW" indent="2" inputType="combobox" name="boxplotInsetPosition">Position at:</Option>
+                    <Option inputType="string" name="boxplotInsetPositionN">Top</Option>
+                    <Option inputType="string" name="boxplotInsetPositionNE">Upper right</Option>
+                    <Option inputType="string" name="boxplotInsetPositionE">Right</Option>
+                    <Option inputType="string" name="boxplotInsetPositionSE">Lower right</Option>
+                    <Option inputType="string" name="boxplotInsetPositionS">Bottom</Option>
+                    <Option inputType="string" name="boxplotInsetPositionSW">Lower left</Option>
+                    <Option inputType="string" name="boxplotInsetPositionW">Left</Option>
+                    <Option inputType="string" name="boxplotInsetPositionNW">Upper left</Option>
+                <Option defaultValue="0" indent="1" inputType="checkbox" name="boxplotGroupInset">Add inset statistics for each group</Option>
+                <Option defaultValue="boxplotGroupInsetPositionTop" indent="2" inputType="combobox" name="boxplotGroupInsetPosition">Position at:</Option>
+                    <Option inputType="string" name="boxplotGroupInsetPositionTop">Top of plot, immediately above axis frame</Option>
+                    <Option inputType="string" name="boxplotGroupInsetPositionTopoff">Top of plot, offset from axis frame</Option>
+                    <Option inputType="string" name="boxplotGroupInsetPositionAxis">Bottom of plot, immediately above horizontal axis</Option>
+                    <Option inputType="string" name="boxplotGroupInsetPositionBottom">Bottom of plot, below horizontal axis label</Option>
+            <Option defaultValue="0" inputType="checkbox" name="comboPlot">Histogram and box plot</Option>
+            <Option indent="1" inputType="string" name="comboPlotNote">Note: Plot is available when no classification variable is specified.</Option>
+                <Option defaultValue="0" indent="1" inputType="checkbox" name="comboPlotInset">Add inset statistics</Option>
+
+            <Option inputType="string" name="outputGroup">OUTPUT DATA SET</Option>
+            <Option inputType="checkbox" name="outputDS">Create output data set</Option>
+            <Option defaultValue="work.Means_stats" indent="1" inputType="outputdata" name="outputDSName" required="true" unique="true">Data set name:</Option>
+            <!-- Code comments -->
+            <Option inputType="string" name="commentTemplate">Graph template to construct combination histogram/boxplot</Option>  
+            <Option inputType="string" name="commentMacro">Macro to subset data and create a histobox for every by group</Option>  
+            <Option inputType="string" name="commentGroup">Get group variable values</Option>  
+            <Option inputType="string" name="commentSQL">Build proc sql where clause</Option> 
+            <Option inputType="string" name="commentSubset">Subset the data set</Option> 
+            <Option inputType="string" name="commentPlotInfo">Build plot group info</Option> 
+            <Option inputType="string" name="commentInset">Get inset statistics</Option> 
+            <Option inputType="string" name="commentComboPlot">Create histogram/boxplot combo plot</Option> 
+            <Option inputType="string" name="commentDistributionOf">Distribution of</Option> 
+            <Option inputType="string" name="commentNoOutput">If no output data set is created, generate one now for inset statistics</Option> 
+            <Option inputType="string" name="commentGenerate">Generate histogram and boxplot combination plot</Option> 
+        </Options>
+    </Metadata>
+
+    <UI>
+        <Container option="dataTab">
+            <Group open="true" option="dataGroup">
+                <DataItem data="DATASOURCE"/>
+            </Group>
+            <Group open="true" option="rolesGroup">
+                <RoleItem role="analysisVariables"/>
+                <RoleItem role="classVariables"/>
+            </Group>
+            <Group open="false" option="addRolesGroup">
+                <RoleItem role="byVariables"/>
+                <RoleItem role="freqVariable"/>
+                <RoleItem role="weightVariable"/>
+                <OptionItem option="noplotNote"/>
+            </Group>
+        </Container>
+
+        <Container option="optionsTab">
+            <Group open="true" option="stats">
+            <Group open="true" option="basicStats">
+                <OptionItem option="mean"/>
+                <OptionItem option="std"/>
+                <OptionItem option="min"/>
+                <OptionItem option="max"/>
+                <OptionItem option="median"/>
+                <OptionItem option="nobs"/>
+                <OptionItem option="missing"/>
+            </Group>
+            <Group open="false" option="addStats">
+                <OptionItem option="stdErr"/>
+                <OptionItem option="variance"/>
+                <OptionItem option="mode"/>
+                <OptionItem option="range"/>
+                <OptionItem option="sum"/>
+                <OptionItem option="sumWeights"/>
+                <OptionItem option="conf"/>
+                <OptionChoice option="confLevel">
+                    <OptionItem option="cf90"/>
+                    <OptionItem option="cf95"/>
+                    <OptionItem option="cf99"/>
+                    <OptionItem option="confLevelCustomChoice"/>
+                </OptionChoice>
+				<OptionItem option="confValue"/>				
+                <OptionItem option="coef"/>
+                <OptionItem option="skewness"/>
+                <OptionItem option="kurtosis"/>
+            </Group>
+            <Group open="false" option="percentiles">
+                <OptionItem option="P1"/>
+                <OptionItem option="P5"/>
+                <OptionItem option="P10"/>
+                <OptionItem option="Q1"/>
+                <OptionItem option="median1"/>
+                <OptionItem option="Q3"/>
+                <OptionItem option="P90"/>
+                <OptionItem option="P95"/>
+                <OptionItem option="P99"/>
+                <OptionItem option="qrange"/>
+                <OptionChoice option="quantile">
+                    <OptionItem option="QMOS"/>
+                    <OptionItem option="QMPPA"/>
+                </OptionChoice>
+                <OptionChoice option="quantileWgt">
+                    <OptionItem option="QMOSWGT"/>
+                </OptionChoice>
+            </Group>
+            </Group>
+            <Group option="plots">
+                <OptionItem option="noplotNote1"/>
+                <OptionItem option="hist"/>
+                <OptionItem option="normalDensityPlot"/>
+                <OptionItem option="kernelDensityPlot"/>
+                <OptionItem option="histogramInset"/>
+                <OptionChoice option="histogramInsetPosition">
+                    <OptionItem option="histogramInsetPositionN"/>
+                    <OptionItem option="histogramInsetPositionNE"/>
+                    <OptionItem option="histogramInsetPositionE"/>
+                    <OptionItem option="histogramInsetPositionSE"/>
+                    <OptionItem option="histogramInsetPositionS"/>
+                    <OptionItem option="histogramInsetPositionSW"/>
+                    <OptionItem option="histogramInsetPositionW"/>
+                    <OptionItem option="histogramInsetPositionNW"/>
+                </OptionChoice>
+                <OptionItem option="boxPlot"/>
+                <OptionItem option="boxPlotNote"/>
+                <OptionItem option="boxplotInset"/>
+                <OptionChoice option="boxplotInsetPosition">
+                    <OptionItem option="boxplotInsetPositionN"/>
+                    <OptionItem option="boxplotInsetPositionNE"/>
+                    <OptionItem option="boxplotInsetPositionE"/>
+                    <OptionItem option="boxplotInsetPositionSE"/>
+                    <OptionItem option="boxplotInsetPositionS"/>
+                    <OptionItem option="boxplotInsetPositionSW"/>
+                    <OptionItem option="boxplotInsetPositionW"/>
+                    <OptionItem option="boxplotInsetPositionNW"/>
+                </OptionChoice>
+                <OptionItem option="boxplotGroupInset"/>
+                <OptionChoice option="boxplotGroupInsetPosition">
+                    <OptionItem option="boxplotGroupInsetPositionTop"/>
+                    <OptionItem option="boxplotGroupInsetPositionTopoff"/>
+                    <OptionItem option="boxplotGroupInsetPositionAxis"/>
+                    <OptionItem option="boxplotGroupInsetPositionBottom"/>
+                </OptionChoice>
+                <OptionItem option="comboPlot"/>
+                <OptionItem option="comboPlotNote"/>
+                <OptionItem option="comboPlotInset"/>
+            </Group>
+            <Group option="detailsGroup">
+                <OptionChoice option="divisor">
+                    <OptionItem option="DDOF"/>
+                    <OptionItem option="DNOO"/>
+                </OptionChoice>
+                <OptionChoice option="divisorWgt">
+                    <OptionItem option="DDOFWGT"/>
+                    <OptionItem option="DNOOWGT"/>
+                    <OptionItem option="DSOWM1WGT"/>
+                    <OptionItem option="DSOWWGT"/>
+                </OptionChoice>
+            </Group>
+        </Container>
+        
+        <Container option="outputTab">
+            <Group open="true" option="outputGroup">                
+                <OptionItem option="outputDS"/>
+                <OptionItem option="outputDSName"/>
+            </Group>
+        </Container>
+    </UI>
+    
+    <Dependencies>
+        <Dependency condition="$median=='1'">
+            <Target action="set" conditionResult="true" option="median1" property="value" value="1"/>
+            <Target action="set" conditionResult="false" option="median1" property="value" value="0"/>
+            <Target action="enable" conditionResult="true" option="quantile"/>
+            <Target action="disable" conditionResult="false" option="quantile"/>
+        </Dependency>
+        <Dependency condition="$median1=='1'">
+            <Target action="set" conditionResult="true" option="median" property="value" value="1"/>
+            <Target action="set" conditionResult="false" option="median" property="value" value="0"/>
+            <Target action="enable" conditionResult="true" option="quantile"/>
+            <Target action="disable" conditionResult="false" option="quantile"/>
+        </Dependency>
+        <Dependency condition="$weightVariable.size()&gt;0">
+            <Target action="enable" conditionResult="true" option="sumWeights"/>
+            <Target action="disable" conditionResult="false" option="sumWeights"/>
+            <Target action="enable" conditionResult="false" option="skewness"/>
+            <Target action="disable" conditionResult="true" option="skewness"/>
+            <Target action="enable" conditionResult="false" option="kurtosis"/>
+            <Target action="disable" conditionResult="true" option="kurtosis"/>
+            <Target action="enable" conditionResult="false" option="mode"/>
+            <Target action="disable" conditionResult="true" option="mode"/>
+            <Target action="hide" conditionResult="true" option="divisor"/>
+            <Target action="show" conditionResult="false" option="divisor"/>
+            <Target action="show" conditionResult="true" option="divisorWgt"/>
+            <Target action="hide" conditionResult="false" option="divisorWgt"/>
+        </Dependency>
+        <Dependency condition="$weightVariable.size()&gt;0 &amp;&amp; ($median=='1' || $P1=='1' || $P5=='1' || $P10=='1' || $Q1=='1' || $median1=='1' || $Q3=='1' || $P90=='1' || $P95=='1' || $P99=='1' || $qrange=='1')">
+            <Target action="show" conditionResult="true" option="quantileWgt"/>
+            <Target action="hide" conditionResult="true" option="quantile"/>
+        </Dependency>
+        <Dependency condition="$weightVariable.size()==0 &amp;&amp; ($median=='1' || $P1=='1' || $P5=='1' || $P10=='1' || $Q1=='1' || $median1=='1' || $Q3=='1' || $P90=='1' || $P95=='1' || $P99=='1' || $qrange=='1')">
+            <Target action="show" conditionResult="true" option="quantile"/>
+            <Target action="hide" conditionResult="true" option="quantileWgt"/>
+        </Dependency>
+        <Dependency condition="!($median=='1' || $P1=='1' || $P5=='1' || $P10=='1' || $Q1=='1' || $median1=='1' || $Q3=='1' || $P90=='1' || $P95=='1' || $P99=='1' || $qrange=='1')">
+            <Target action="hide" conditionResult="true" option="quantile"/>
+            <Target action="hide" conditionResult="true" option="quantileWgt"/>
+        </Dependency>
+        <Dependency condition="($conf=='1')">
+            <Target action="show" conditionResult="true" option="confLevel"/>
+            <Target action="hide" conditionResult="false" option="confLevel"/>
+        </Dependency>
+        <Dependency condition="($conf=='1' &amp;&amp; $confLevel=='confLevelCustomChoice')">
+            <Target action="show" conditionResult="true" option="confValue"/>
+            <Target action="hide" conditionResult="false" option="confValue"/>
+        </Dependency>
+        <Dependency condition="($conf=='1' || $stdErr=='1') &amp;&amp; $weightVariable.size()==0">
+            <Target action="set" conditionResult="true" option="divisor" property="value" value="DDOF"/>
+        </Dependency>
+        <Dependency condition="($conf=='1' || $stdErr=='1') &amp;&amp; $weightVariable.size()&gt;0">
+            <Target action="set" conditionResult="true" option="divisorWgt" property="value" value="DDOFWGT"/>
+        </Dependency>
+        <Dependency condition="$weightVariable.size()&gt;0">
+            <Target action="show" conditionResult="true" option="noplotNote"/>
+            <Target action="hide" conditionResult="false" option="noplotNote"/>
+            <Target action="show" conditionResult="true" option="noplotNote1"/>
+            <Target action="hide" conditionResult="false" option="noplotNote1"/>
+            <Target action="show" conditionResult="false" option="hist"/>
+            <Target action="hide" conditionResult="true" option="hist"/>
+            <Target action="show" conditionResult="false" option="normalDensityPlot"/>
+            <Target action="hide" conditionResult="true" option="normalDensityPlot"/>
+            <Target action="show" conditionResult="false" option="kernelDensityPlot"/>
+            <Target action="hide" conditionResult="true" option="kernelDensityPlot"/>
+            <Target action="show" conditionResult="false" option="histogramInset"/>
+            <Target action="hide" conditionResult="true" option="histogramInset"/>
+            <Target action="show" conditionResult="false" option="histogramInsetPosition"/>
+            <Target action="hide" conditionResult="true" option="histogramInsetPosition"/>
+            <Target action="show" conditionResult="false" option="boxPlot"/>
+            <Target action="hide" conditionResult="true" option="boxPlot"/>
+            <Target action="show" conditionResult="false" option="boxplotInset"/>
+            <Target action="hide" conditionResult="true" option="boxplotInset"/>
+            <Target action="show" conditionResult="false" option="boxplotInsetPosition"/>
+            <Target action="hide" conditionResult="true" option="boxplotInsetPosition"/>
+            <Target action="show" conditionResult="false" option="boxplotGroupInset"/>
+            <Target action="hide" conditionResult="true" option="boxplotGroupInset"/>
+            <Target action="show" conditionResult="false" option="boxplotGroupInsetPosition"/>
+            <Target action="hide" conditionResult="true" option="boxplotGroupInsetPosition"/>
+            <Target action="show" conditionResult="false" option="comboPlot"/>
+            <Target action="hide" conditionResult="true" option="comboPlot"/>
+            <Target action="show" conditionResult="false" option="comboPlotInset"/>
+            <Target action="hide" conditionResult="true" option="comboPlotInset"/>
+        </Dependency>       
+        <Dependency condition="$hist=='1'">
+            <Target action="show" conditionResult="true" option="normalDensityPlot"/>
+            <Target action="hide" conditionResult="false" option="normalDensityPlot"/>
+            <Target action="show" conditionResult="true" option="kernelDensityPlot"/>
+            <Target action="hide" conditionResult="false" option="kernelDensityPlot"/>
+            <Target action="show" conditionResult="true" option="histogramInset"/>
+            <Target action="hide" conditionResult="false" option="histogramInset"/>
+            <Target action="show" conditionResult="true" option="histogramInsetPosition"/>
+            <Target action="hide" conditionResult="false" option="histogramInsetPosition"/>
+        </Dependency>
+        <Dependency condition="($hist=='1' &amp;&amp; (($mean=='1')||($std=='1')||($min=='1')||($max=='1')||($nobs=='1')||($missing=='1')||($stdErr=='1')||($variance=='1')||($mode=='1')||($range=='1')||($sum=='1')||($sumWeights=='1')||($coef=='1')||($skewness=='1')||($kurtosis=='1')||($P1=='1')||($P5=='1')||($P10=='1')||($Q1=='1')||($median=='1')||($median1=='1')||($Q3=='1')||($P90=='1')||($P95=='1')||($P99=='1')||($qrange=='1')))">
+            <Target action="show" conditionResult="true" option="histogramInset"/>
+            <Target action="hide" conditionResult="false" option="histogramInset"/>
+            <Target action="show" conditionResult="true" option="histogramInsetPosition"/>
+            <Target action="hide" conditionResult="false" option="histogramInsetPosition"/>
+        </Dependency>
+        <Dependency condition="($histogramInset=='1')">
+            <Target action="show" conditionResult="true" option="histogramInsetPosition"/>
+            <Target action="hide" conditionResult="false" option="histogramInsetPosition"/>
+        </Dependency>
+        <Dependency condition="($weightVariable.size()==0 &amp;&amp; $classVariables.size()&gt;0)">
+            <Target action="show" conditionResult="true" option="boxPlot"/>
+            <Target action="hide" conditionResult="false" option="boxPlot"/>
+            <Target action="show" conditionResult="true" option="boxPlotNote"/>
+            <Target action="hide" conditionResult="false" option="boxPlotNote"/>
+        </Dependency>
+        <Dependency condition="($boxPlot=='1' &amp;&amp; $classVariables.size()&gt;0) &amp;&amp; (($mean=='1')||($std=='1')||($min=='1')||($max=='1')||($nobs=='1'))">
+            <Target action="show" conditionResult="true" option="boxplotInset"/>
+            <Target action="hide" conditionResult="false" option="boxplotInset"/>
+            <Target action="show" conditionResult="true" option="boxplotInsetPosition"/>
+            <Target action="hide" conditionResult="false" option="boxplotInsetPosition"/>
+        </Dependency>
+        <Dependency condition="($boxPlot=='1' &amp;&amp; $classVariables.size()&gt;0) &amp;&amp; (($mean=='1')||($std=='1')||($min=='1')||($max=='1')||($nobs=='1')||($Q1=='1')||($median=='1')||($median1=='1')||($Q3=='1')||($range=='1'))">
+            <Target action="show" conditionResult="true" option="boxplotGroupInset"/>
+            <Target action="hide" conditionResult="false" option="boxplotGroupInset"/>
+            <Target action="show" conditionResult="true" option="boxplotGroupInsetPosition"/>
+            <Target action="hide" conditionResult="false" option="boxplotGroupInsetPosition"/>
+        </Dependency>
+        <Dependency condition="($boxplotInset=='1')">
+            <Target action="show" conditionResult="true" option="boxplotInsetPosition"/>
+            <Target action="hide" conditionResult="false" option="boxplotInsetPosition"/>
+        </Dependency>
+        <Dependency condition="($boxplotGroupInset=='1')">
+            <Target action="show" conditionResult="true" option="boxplotGroupInsetPosition"/>
+            <Target action="hide" conditionResult="false" option="boxplotGroupInsetPosition"/>
+        </Dependency>
+        <Dependency condition="($weightVariable.size()==0 &amp;&amp; $classVariables.size()==0)">
+            <Target action="show" conditionResult="true" option="comboPlot"/>
+            <Target action="hide" conditionResult="false" option="comboPlot"/>
+            <Target action="show" conditionResult="true" option="comboPlotNote"/>
+            <Target action="hide" conditionResult="false" option="comboPlotNote"/>
+        </Dependency>
+        <Dependency condition="($comboPlot=='1' &amp;&amp; $classVariables.size()==0 &amp;&amp; (($mean=='1')||($std=='1')||($min=='1')||($max=='1')||($nobs=='1')||($missing=='1')||($stdErr=='1')||($variance=='1')||($mode=='1')||($range=='1')||($sum=='1')||($sumWeights=='1')||($conf=='1')||($coef=='1')||($skewness=='1')||($kurtosis=='1')||($P1=='1')||($P5=='1')||($P10=='1')||($Q1=='1')||($median=='1')||($median1=='1')||($Q3=='1')||($P90=='1')||($P95=='1')||($P99=='1')||($qrange=='1')))">
+            <Target action="show" conditionResult="true" option="comboPlotInset"/>
+            <Target action="hide" conditionResult="false" option="comboPlotInset"/>
+        </Dependency>
+        <!-- If no statistics is selected, noprint. SAS throws error when no output statement is specified with noprint option. -->
+        <Dependency condition="(($mean=='1')||($std=='1')||($min=='1')||($max=='1')||($nobs=='1')||($missing=='1')||($stdErr=='1')||($variance=='1')||($mode=='1')||($range=='1')||($sum=='1')||($sumWeights=='1')||($conf=='1')||($coef=='1')||($skewness=='1')||($kurtosis=='1')||($P1=='1')||($P5=='1')||($P10=='1')||($Q1=='1')||($median=='1')||($median1=='1')||($Q3=='1')||($P90=='1')||($P95=='1')||($P99=='1')||($qrange=='1'))">
+            <Target action="enable" conditionResult="true" option="outputDS"/>
+            <Target action="disable" conditionResult="false" option="outputDS"/>
+        </Dependency>
+        <Dependency condition="($outputDS=='1' &amp;&amp; (($mean=='1')||($std=='1')||($min=='1')||($max=='1')||($nobs=='1')||($missing=='1')||($stdErr=='1')||($variance=='1')||($mode=='1')||($range=='1')||($sum=='1')||($sumWeights=='1')||($conf=='1')||($coef=='1')||($skewness=='1')||($kurtosis=='1')||($P1=='1')||($P5=='1')||($P10=='1')||($Q1=='1')||($median=='1')||($median1=='1')||($Q3=='1')||($P90=='1')||($P95=='1')||($P99=='1')||($qrange=='1')))">
+            <Target action="enable" conditionResult="true" option="outputDSName"/>
+            <Target action="disable" conditionResult="false" option="outputDSName"/>
+        </Dependency>
+    </Dependencies>
+
+    <Requirements>
+        <Requirement condition="(($mean=='1')||($std=='1')||($min=='1')||($max=='1')||($nobs=='1')||($missing=='1')||($stdErr=='1')||($variance=='1')||($mode=='1')||($range=='1')||($sum=='1')||($sumWeights=='1')||($conf=='1')||($coef=='1')||($skewness=='1')||($kurtosis=='1')||($P1=='1')||($P5=='1')||($P10=='1')||($Q1=='1')||($median=='1')||($median1=='1')||($Q3=='1')||($P90=='1')||($P95=='1')||($P99=='1')||($qrange=='1')) || $hist=='1' || $boxPlot=='1' || $comboPlot=='1'">
+            <Message nlsKey="statsSelectionValMsgKey">Select at least one statistic or one plot.</Message>
+        </Requirement>
+    </Requirements>
+
+    <CodeTemplate>
+<![CDATA[
+#if(($mean=="1")||($std=="1")||($min=="1")||($max=="1")||($nobs=="1")||($missing=="1")||($stdErr=="1")||($variance=="1")||($mode=="1")||($range=="1")||($sum=="1")||($sumWeights=="1")||($conf=="1")||
+    ($coef=="1")||($skewness=="1")||($kurtosis=="1")||($P1=="1")||($P5=="1")||($P10=="1")||($Q1=="1")||($median=="1")||($median1=="1")||($Q3=="1")||($P90=="1")||($P95=="1")||($P99=="1")||($qrange=="1")) 
+    #set($statsSelected=1)
+#else #set($statsSelected=0)
+#end
+
+#if($conf == "1")
+#if($confLevel == "cf99") #set($alpha=0.01)
+#elseif($confLevel == "cf95") #set($alpha=0.05)
+#elseif($confLevel == "cf90") #set($alpha=0.1)
+#else #set($alpha="%sysevalf((100-$confValue)/100)")
+#end
+#end
+
+ods noproctitle;
+ods graphics / imagemap=on;
+#if($statsSelected=="1" || $hist == "1" || $comboPlot=="1")
+#if($byVariables.size() > 0)
+proc sort data=$DATASOURCE out=WORK.TempSorted2236;
+    by #foreach($item in $byVariables) $item #end;
+run;
+#end
+#end
+
+######## proc means ########
+## proc means code is generated only when at least one statistics is selected
+#if($statsSelected=="1")
+#if($byVariables.size() > 0)
+proc means data=WORK.TempSorted2236
+#else
+proc means data=$DATASOURCE
+#end
+    chartype
+#if($mean == "1") mean #end
+#if($std == "1") std #end
+#if($min == "1") min #end
+#if($max == "1") max #end
+#if($median == "1" || $median1 == "1") median #end
+#if($nobs == "1") n #end
+#if($missing == "1") nmiss #end
+#if($stdErr == "1") stderr #end
+#if($variance == "1") var #end
+#if($mode == "1") mode #end
+#if($range == "1") range #end
+#if($sum == "1") sum #end
+#if($sumWeights == "1") sumwgt #end
+#if($divisor)
+#if($divisor.equalsIgnoreCase("DDOF")) vardef=df #end
+#if($divisor.equalsIgnoreCase("DNOO")) vardef=n #end
+#if($divisor.equalsIgnoreCase("DSOWM1")) vardef=wdf #end
+#if($divisor.equalsIgnoreCase("DSOW")) vardef=wgt #end
+#end
+#if($divisorWgt)
+#if($divisorWgt.equalsIgnoreCase("DDOFWGT")) vardef=df #end
+#if($divisorWgt.equalsIgnoreCase("DNOOWGT")) vardef=n #end
+#if($divisorWgt.equalsIgnoreCase("DSOWM1WGT")) vardef=wdf #end
+#if($divisorWgt.equalsIgnoreCase("DSOWWGT")) vardef=wgt #end
+#end
+#if($conf == "1") clm alpha=$alpha #end
+#if($coef == "1") cv #end
+#if($skewness == "1") skewness #end
+#if($kurtosis == "1") kurtosis #end
+#if($P1 == "1") p1 #end
+#if($P5 == "1") p5 #end
+#if($P10 == "1") p10 #end
+#if($Q1 == "1") q1 #end
+#if($Q3 == "1") q3 #end
+#if($P90 == "1") p90 #end
+#if($P95 == "1") p95 #end
+#if($P99 == "1") p99 #end
+#if($qrange == "1") qrange #end
+#if($quantile) #if($quantile.equalsIgnoreCase("QMOS"))  
+    qmethod=os
+#else
+    qmethod=p2
+#end
+#end
+#if($quantileWgt) #if($quantileWgt.equalsIgnoreCase("QMOSWGT")) 
+    qmethod=os
+#else
+    qmethod=p2
+#end
+#end;
+    var #foreach($item in $analysisVariables) $item #end;
+#if($classVariables.size() > 0)
+    class #foreach($item in $classVariables) $item #end;
+#end
+#if($outputDS == 1)
+    output out=$outputDSName
+#if($mean == "1") mean= #end
+#if($std == "1") std= #end
+#if($min == "1") min= #end
+#if($max == "1") max= #end
+#if($median == "1" || $median1 == "1") median= #end
+#if($nobs == "1") n= #end
+#if($missing == "1") nmiss= #end
+#if($stdErr == "1") stderr= #end
+#if($variance == "1") var= #end
+#if($mode == "1") mode= #end
+#if($range == "1") range= #end
+#if($sum == "1") sum= #end
+#if($sumWeights == "1") sumwgt= #end
+#if($conf == "1") lclm= uclm= #end
+#if($coef == "1") cv= #end
+#if($skewness == "1") skewness= #end
+#if($kurtosis == "1") kurtosis= #end
+#if($P1 == "1") p1= #end
+#if($P5 == "1") p5= #end
+#if($P10 == "1") p10= #end
+#if($Q1 == "1") q1= #end
+#if($Q3 == "1") q3= #end
+#if($P90 == "1") p90= #end
+#if($P95 == "1") p95= #end
+#if($P99 == "1") p99= #end
+#if($qrange == "1") qrange= #end / autoname;
+#end
+#if($freqVariable.size() > 0) freq #foreach($item in $freqVariable)$item #end; #end
+#if($weightVariable.size() > 0) weight #foreach($item in $weightVariable)$item #end; #end
+#if($byVariables.size() > 0)
+    by #foreach($item in $byVariables) $item #end;
+#end
+run;
+#end
+######## proc means ########
+
+######## Histogram ########
+#if($hist == "1")
+#if($byVariables.size() > 0)
+proc univariate data=WORK.TempSorted2236
+#else
+proc univariate data=$DATASOURCE
+#end 
+#if($divisor)
+#if($divisor.equalsIgnoreCase("DDOF")) vardef=df #end
+#if($divisor.equalsIgnoreCase("DNOO")) vardef=n #end
+#if($divisor.equalsIgnoreCase("DSOWM1")) vardef=wdf #end
+#if($divisor.equalsIgnoreCase("DSOW")) vardef=wgt #end
+#end
+#if($divisorWgt)
+#if($divisorWgt.equalsIgnoreCase("DDOFWGT")) vardef=df #end
+#if($divisorWgt.equalsIgnoreCase("DNOOWGT")) vardef=n #end
+#if($divisorWgt.equalsIgnoreCase("DSOWM1WGT")) vardef=wdf #end
+#if($divisorWgt.equalsIgnoreCase("DSOWWGT")) vardef=wgt #end
+#end
+noprint;
+#if($analysisVariables.size() > 0) var #foreach($item in $analysisVariables) $item #end; #end
+#if($classVariables.size() > 0) class #foreach($item in $classVariables) $item #end; #end
+histogram #foreach($item in $analysisVariables) $item #end
+#if($normalDensityPlot == "1" || $kernelDensityPlot == "1") /  
+#if($normalDensityPlot == "1") normal(noprint)#end
+#if($kernelDensityPlot == "1") kernel#end
+#end; 
+#if(($mean=="1")||($std=="1")||($min=="1")||($max=="1")||($nobs=="1")||($missing=="1")||($stdErr=="1")||($variance=="1")||($mode=="1")||($range=="1")||($sum=="1")||($sumWeights=="1")||($coef=="1")||
+    ($skewness=="1")||($kurtosis=="1")||($P1=="1")||($P5=="1")||($P10=="1")||($Q1=="1")||($median=="1")||($median1=="1")||($Q3=="1")||($P90=="1")||($P95=="1")||($P99=="1")||($qrange=="1"))
+#if($histogramInset == "1") inset 
+#if($mean == "1") mean #end
+#if($std == "1") std #end
+#if($min == "1") min #end
+#if($max == "1") max #end
+#if($median == "1" || $median1 == "1") median #end
+#if($nobs == "1") n #end
+#if($missing == "1") nmiss #end
+#if($stdErr == "1") stderr #end
+#if($variance == "1") var #end
+#if($mode == "1") mode #end
+#if($range == "1") range #end
+#if($sum == "1") sum #end
+#if($sumWeights == "1") sumwgt #end
+#if($coef == "1") cv #end
+#if($skewness == "1") skewness #end
+#if($kurtosis == "1") kurtosis #end
+#if($P1 == "1") p1 #end
+#if($P5 == "1") p5 #end
+#if($P10 == "1") p10 #end
+#if($Q1 == "1") q1 #end
+#if($Q3 == "1") q3 #end
+#if($P90 == "1") p90 #end
+#if($P95 == "1") p95 #end
+#if($P99 == "1") p99 #end
+#if($qrange == "1") qrange #end
+/ position=#if($histogramInsetPosition == "histogramInsetPositionN")n
+#elseif ($histogramInsetPosition == "histogramInsetPositionNE")ne
+#elseif ($histogramInsetPosition == "histogramInsetPositionE")e
+#elseif ($histogramInsetPosition == "histogramInsetPositionSE")se
+#elseif ($histogramInsetPosition == "histogramInsetPositionS")s
+#elseif ($histogramInsetPosition == "histogramInsetPositionSW")sw
+#elseif ($histogramInsetPosition == "histogramInsetPositionW")w
+#elseif ($histogramInsetPosition == "histogramInsetPositionNW")nw
+#end
+;
+#end
+#end  ##end inset stmt
+#if($freqVariable.size() > 0) freq #foreach($item in $freqVariable)$item #end; #end
+#if($weightVariable.size() > 0) weight #foreach($item in $weightVariable)$item #end; #end
+#if($byVariables.size() > 0) by #foreach($item in $byVariables) $item #end; #end
+run;
+#end
+######## Histogram ########
+
+######## Comparative Box plot ########
+#if($boxPlot=="1")
+#foreach($item1 in $classVariables)
+#if($byVariables.size() > 0)
+proc sort data=$DATASOURCE out=WORK.TempSorted2236;
+    by #foreach($item in $byVariables) $item #end $item1;
+run;
+proc boxplot data=WORK.TempSorted2236;
+#else
+proc sort data=$DATASOURCE out=WORK.TempSorted2236;
+    by $item1;
+run;
+proc boxplot data=WORK.TempSorted2236;
+#end  ##end sorting and proc boxplot
+    plot (#foreach($item in $analysisVariables) $item #end)*$item1 / boxstyle=schematic;
+#if(($mean=="1")||($std=="1")||($min=="1")||($max=="1")||($nobs=="1"))
+#if($boxplotInset == "1") inset 
+#if($mean == "1") mean #end
+#if($std == "1") stddev #end
+#if($min == "1") min #end
+#if($max == "1") max #end
+#if($nobs == "1") nobs #end
+/ position=#if($boxplotInsetPosition == "boxplotInsetPositionN")n
+#elseif ($boxplotInsetPosition == "boxplotInsetPositionNE")ne
+#elseif ($boxplotInsetPosition == "boxplotInsetPositionE")e
+#elseif ($boxplotInsetPosition == "boxplotInsetPositionSE")se
+#elseif ($boxplotInsetPosition == "boxplotInsetPositionS")s
+#elseif ($boxplotInsetPosition == "boxplotInsetPositionSW")sw
+#elseif ($boxplotInsetPosition == "boxplotInsetPositionW")w
+#elseif ($boxplotInsetPosition == "boxplotInsetPositionNW")nw
+#end
+;
+#end
+#end  ##end inset stmt
+#if(($mean=="1")||($std=="1")||($min=="1")||($max=="1")||($nobs=="1")||($Q1=="1")||($median=="1")||($median1=="1")||($Q3=="1")||($range=="1"))
+#if($boxplotGroupInset == "1") insetgroup
+#if($mean == "1") mean #end
+#if($std == "1") stddev #end
+#if($min == "1") min #end
+#if($max == "1") max #end
+#if($nobs == "1") n #end
+#if($Q1 == "1") q1 #end
+#if($median == "1" || $median1 == "1") q2 #end
+#if($Q3 == "1") q3 #end
+#if($range == "1") range #end
+/ position=#if($boxplotGroupInsetPosition == "boxplotGroupInsetPositionTop") top
+#elseif ($boxplotGroupInsetPosition == "boxplotGroupInsetPositionTopoff") topoff
+#elseif ($boxplotGroupInsetPosition == "boxplotGroupInsetPositionAxis") axis
+#elseif ($boxplotGroupInsetPosition == "boxplotGroupInsetPositionBottom") bottom
+#end
+;
+#end
+#end  ##end insetgroup stmt
+#if($byVariables.size() > 0) by #foreach($item in $byVariables) $item #end; #end
+run;
+#end ##end foreach($item1 in $classVariables) //avaiable only when class variable is specified
+#end
+######## Comparative Box plot ########
+
+######## Histogram and Box plot ########
+#if($comboPlot=="1")
+/* $commentTemplate */
+proc template;
+    define statgraph histobox;
+        dynamic AVAR ByVarInfo
+    #if($statsSelected=="1")
+        #if($comboPlotInset == "1")  
+            #if($mean == "1") __mean #end
+            #if($std == "1") __std #end
+            #if($min == "1") __min #end
+            #if($max == "1") __max #end
+            #if($median == "1" || $median1 == "1") __median #end
+            #if($nobs == "1") __n #end
+            #if($missing == "1") __nmiss #end
+            #if($stdErr == "1") __stderr #end
+            #if($variance == "1") __var #end
+            #if($mode == "1") __mode #end
+            #if($range == "1") __range #end
+            #if($sum == "1") __sum #end
+            #if($sumWeights == "1") __sumwgt #end
+            #if($conf == "1") __lclm __uclm #end
+            #if($coef == "1") __cv #end
+            #if($skewness == "1") __skewness #end
+            #if($kurtosis == "1") __kurtosis #end
+            #if($P1 == "1") __p1 #end
+            #if($P5 == "1") __p5 #end
+            #if($P10 == "1") __p10 #end
+            #if($Q1 == "1") __q1 #end
+            #if($Q3 == "1") __q3 #end
+            #if($P90 == "1") __p90 #end
+            #if($P95 == "1") __p95 #end
+            #if($P99 == "1") __p99 #end
+            #if($qrange == "1") __qrange #end
+        #end
+    #end;
+        begingraph;
+            entrytitle "$commentDistributionOf " AVAR ByVarInfo;
+            layout lattice / rows=2 columndatarange=union
+                rowgutter=0 rowweights=(0.75 0.25);
+                layout overlay / yaxisopts=(offsetmax=0.1) xaxisopts=(display=none);
+            #if($statsSelected=="1")
+                #if($comboPlotInset == "1")  
+                    layout gridded / columns=2 border=on autoalign=(topright topleft);
+                        %let _lft = halign=left;
+                        %let _rgt = halign=right;
+                        #if($mean == "1") entry &_lft "Mean"; entry &_rgt __mean; #end
+                        #if($std == "1") entry &_lft "Std Dev"; entry &_rgt __std; #end
+                        #if($min == "1") entry &_lft "Min"; entry &_rgt __min; #end
+                        #if($max == "1") entry &_lft "Max"; entry &_rgt __max; #end
+                        #if($median == "1" || $median1 == "1") entry &_lft "Median"; entry &_rgt __median; #end
+                        #if($nobs == "1") entry &_lft "N"; entry &_rgt __n; #end
+                        #if($missing == "1") entry &_lft "NMiss"; entry &_rgt __nmiss; #end
+                        #if($stdErr == "1") entry &_lft "Std Err"; entry &_rgt __stderr; #end
+                        #if($variance == "1") entry &_lft "Variance"; entry &_rgt __var; #end
+                        #if($mode == "1") entry &_lft "Mode"; entry &_rgt __mode; #end
+                        #if($range == "1") entry &_lft "Range"; entry &_rgt __range; #end
+                        #if($sum == "1") entry &_lft "Sum"; entry &_rgt __sum; #end
+                        #if($sumWeights == "1") entry &_lft "Sum Weights"; entry &_rgt __sumwgt; #end
+                        #if($conf == "1") entry &_lft "LCLM"; entry &_rgt __lclm; entry &_lft "UCLM"; entry &_rgt __uclm; #end
+                        #if($coef == "1") entry &_lft "CV"; entry &_rgt __cv; #end
+                        #if($skewness == "1") entry &_lft "Skewness"; entry &_rgt __skewness; #end
+                        #if($kurtosis == "1") entry &_lft "Kurtosis"; entry &_rgt __kurtosis; #end
+                        #if($P1 == "1") entry &_lft "P1"; entry &_rgt __p1; #end
+                        #if($P5 == "1") entry &_lft "P5"; entry &_rgt __p5; #end
+                        #if($P10 == "1") entry &_lft "P10"; entry &_rgt __p10; #end
+                        #if($Q1 == "1") entry &_lft "Q1"; entry &_rgt __q1; #end
+                        #if($Q3 == "1") entry &_lft "Q3"; entry &_rgt __q3; #end
+                        #if($P90 == "1") entry &_lft "P90"; entry &_rgt __p90; #end
+                        #if($P95 == "1") entry &_lft "P95"; entry &_rgt __p95; #end
+                        #if($P99 == "1") entry &_lft "P99"; entry &_rgt __p99; #end
+                        #if($qrange == "1") entry &_lft "Q Range"; entry &_rgt __qrange; #end                       
+                    endlayout;
+                #end
+            #end  ##end inset statistics block
+                    histogram AVAR / #if($freqVariable.size()>0) freq=#foreach($item in $freqVariable)$item #end #end;
+                endlayout;
+                layout overlay /;
+                    BoxPlot Y=AVAR / orient=horizontal #if($freqVariable.size()>0) freq=#foreach($item in $freqVariable)$item #end #end;
+                endlayout;
+            endlayout;
+        endgraph;
+    end;
+run;
+
+/* $commentMacro */
+%macro byGroupHistobox(data=, level=, num_level=, byVars=, num_byvars=, avar=);
+    %do j=1 %to &num_byvars;
+        %let varName&j=%scan(%str(&byVars), &j);
+    %end;
+
+    %do i=1 %to &num_level;
+        /* $commentGroup */
+        data _null_;
+            i=&i;
+            set &level point=i; 
+            %do j=1 %to &num_byvars;
+                call symputx("x&j",strip(&&varName&j),'l');
+            %end;
+            stop;                                                         
+        run;
+        /* $commentSQL */
+        %let dsid=%sysfunc(open(&data));
+        %let whereClause=;
+        %do j=1 %to %eval(&num_byvars-1);
+            %let varnum=%sysfunc(varnum(&dsid,&&varName&j));
+            %if(%sysfunc(vartype(&dsid, &varnum))=C) %then
+                %let whereClause=&whereClause.&&varName&j.="&&x&j"%str( and );
+            %else
+                %let whereClause=&whereClause.&&varName&j.=&&x&j.%str( and );
+        %end;
+        %let varnum=%sysfunc(varnum(&dsid,&&varName&num_byvars));
+        %if(%sysfunc(vartype(&dsid, &varnum))=C) %then
+            %let whereClause=&whereClause.&&varName&num_byvars.="&&x&num_byvars";
+        %else
+            %let whereClause=&whereClause.&&varName&num_byvars.=&&x&num_byvars;
+        %let rc=%sysfunc(close(&dsid));
+        /* $commentSubset */
+        proc sql noprint;
+            create table WORK.tempData as
+            select *
+            from &data
+            where &whereClause
+            ;
+        quit;
+        /* $commentPlotInfo */
+        %let groupInfo=;
+        %do j=1 %to %eval(&num_byvars-1);
+            %let groupInfo=&groupInfo.&&varName&j.=&&x&j%str( );
+        %end;
+        %let groupInfo=&groupInfo.&&varName&num_byvars.=&&x&num_byvars;
+#if($statsSelected=="1")
+    #if($comboPlotInset == "1")  
+        /* $commentInset */
+        data _null_;
+            i=&i;
+            set #if($outputDS=="1") $outputDSName #else WORK.TempOutputDS6221 #end point=i;
+            #if($mean == "1") call symputx("__mean",strip(&avar._Mean),'l'); #end
+            #if($std == "1") call symputx("__std",strip(&avar._StdDev),'l'); #end
+            #if($min == "1") call symputx("__min",strip(&avar._Min),'l'); #end
+            #if($max == "1") call symputx("__max",strip(&avar._Max),'l'); #end
+            #if($median == "1" || $median1 == "1") call symputx("__median",strip(&avar._Median),'l'); #end
+            #if($nobs == "1") call symputx("__n",strip(&avar._N),'l'); #end
+            #if($missing == "1") call symputx("__nmiss",strip(&avar._NMiss),'l'); #end
+            #if($stdErr == "1") call symputx("__stderr",strip(&avar._StdErr),'l'); #end
+            #if($variance == "1") call symputx("__var",strip(&avar._Var),'l'); #end
+            #if($mode == "1") call symputx("__mode",strip(&avar._Mode),'l'); #end
+            #if($range == "1") call symputx("__range",strip(&avar._Range),'l'); #end
+            #if($sum == "1") call symputx("__sum",strip(&avar._Sum),'l'); #end
+            #if($sumWeights == "1") call symputx("__sumwgt",strip(&avar._SumWgt),'l'); #end
+            #if($conf == "1") call symputx("__lclm",strip(&avar._LCLM),'l'); call symputx("__uclm",strip(&avar._UCLM),'l'); #end
+            #if($coef == "1") call symputx("__cv",strip(&avar._CV),'l'); #end
+            #if($skewness == "1") call symputx("__skewness",strip(&avar._Skew),'l'); #end
+            #if($kurtosis == "1") call symputx("__kurtosis",strip(&avar._Kurt),'l'); #end
+            #if($P1 == "1") call symputx("__p1",strip(&avar._P1),'l'); #end
+            #if($P5 == "1") call symputx("__p5",strip(&avar._P5),'l'); #end
+            #if($P10 == "1") call symputx("__p10",strip(&avar._P10),'l'); #end
+            #if($Q1 == "1") call symputx("__q1",strip(&avar._Q1),'l'); #end
+            #if($Q3 == "1") call symputx("__q3",strip(&avar._Q3),'l'); #end
+            #if($P90 == "1") call symputx("__p90",strip(&avar._P90),'l'); #end
+            #if($P95 == "1") call symputx("__p95",strip(&avar._P95),'l'); #end
+            #if($P99 == "1") call symputx("__p99",strip(&avar._P99),'l'); #end
+            #if($qrange == "1") call symputx("__qrange",strip(&avar._QRange),'l'); #end
+            stop;                                                         
+        run;
+    #end
+#end
+        /* $commentComboPlot */
+        proc sgrender data=WORK.tempData template=histobox;
+            dynamic AVAR="&avar" ByVarInfo=" (&groupInfo)"
+    #if($statsSelected=="1")
+        #if($comboPlotInset == "1")  
+            #if($mean == "1") __mean="&__mean" #end
+            #if($std == "1") __std="&__std" #end
+            #if($min == "1") __min="&__min" #end
+            #if($max == "1") __max="&__max" #end
+            #if($median == "1" || $median1 == "1") __median="&__median" #end
+            #if($nobs == "1") __n="&__n" #end
+            #if($missing == "1") __nmiss="&__nmiss" #end
+            #if($stdErr == "1") __stderr="&__stderr" #end
+            #if($variance == "1") __var="&__var" #end
+            #if($mode == "1") __mode="&__mode" #end
+            #if($range == "1") __range="&__range" #end
+            #if($sum == "1") __sum="&__sum" #end
+            #if($sumWeights == "1") __sumwgt="&__sumwgt" #end
+            #if($conf == "1") __lclm="&__lclm" __uclm="&__uclm" #end
+            #if($coef == "1") __cv="&__cv" #end
+            #if($skewness == "1") __skewness="&__skewness" #end
+            #if($kurtosis == "1") __kurtosis="&__kurtosis" #end
+            #if($P1 == "1") __p1="&__p1" #end
+            #if($P5 == "1") __p5="&__p5" #end
+            #if($P10 == "1") __p10="&__p10" #end
+            #if($Q1 == "1") __q1="&__q1" #end
+            #if($Q3 == "1") __q3="&__q3" #end
+            #if($P90 == "1") __p90="&__p90" #end
+            #if($P95 == "1") __p95="&__p95" #end
+            #if($P99 == "1") __p99="&__p99" #end
+            #if($qrange == "1") __qrange="&__qrange" #end
+        #end
+    #end;
+        run;    
+    %end;
+%mend;
+
+#if(!($outputDS=="1") && $comboPlotInset=="1")
+#if($statsSelected=="1")
+/* $commentNoOutput */
+#if($byVariables.size() > 0)
+proc means data=WORK.TempSorted2236
+#else
+proc means data=$DATASOURCE
+#end
+    chartype
+#if($divisor)
+#if($divisor.equalsIgnoreCase("DDOF"))  vardef=df #end
+#if($divisor.equalsIgnoreCase("DNOO"))  vardef=n #end
+#if($divisor.equalsIgnoreCase("DSOWM1")) vardef=wdf #end
+#if($divisor.equalsIgnoreCase("DSOW"))  vardef=wgt #end
+#end
+#if($divisorWgt)
+#if($divisorWgt.equalsIgnoreCase("DDOFWGT")) vardef=df #end
+#if($divisorWgt.equalsIgnoreCase("DNOOWGT")) vardef=n #end
+#if($divisorWgt.equalsIgnoreCase("DSOWM1WGT")) vardef=wdf #end
+#if($divisorWgt.equalsIgnoreCase("DSOWWGT")) vardef=wgt #end
+#end
+#if($conf == "1") alpha=$alpha #end
+#if($quantile) #if($quantile.equalsIgnoreCase("QMOS"))  
+    qmethod=os
+#else
+    qmethod=p2
+#end
+#end 
+#if($quantileWgt) #if($quantileWgt.equalsIgnoreCase("QMOSWGT")) 
+    qmethod=os
+#else
+    qmethod=p2
+#end
+#end
+noprint;
+    var #foreach($item in $analysisVariables) $item #end;
+    output out=WORK.TempOutputDS6221 (replace=yes)
+#if($mean == "1") mean= #end
+#if($std == "1") std= #end
+#if($min == "1") min= #end
+#if($max == "1") max= #end
+#if($median == "1" || $median1 == "1") median= #end
+#if($nobs == "1") n= #end
+#if($missing == "1") nmiss= #end
+#if($stdErr == "1") stderr= #end
+#if($variance == "1") var= #end
+#if($mode == "1") mode= #end
+#if($range == "1") range= #end
+#if($sum == "1") sum= #end
+#if($sumWeights == "1") sumwgt= #end
+#if($conf == "1") lclm= uclm= #end
+#if($coef == "1") cv= #end
+#if($skewness == "1") skewness= #end
+#if($kurtosis == "1") kurtosis= #end
+#if($P1 == "1") p1= #end
+#if($P5 == "1") p5= #end
+#if($P10 == "1") p10= #end
+#if($Q1 == "1") q1= #end
+#if($Q3 == "1") q3= #end
+#if($P90 == "1") p90= #end
+#if($P95 == "1") p95= #end
+#if($P99 == "1") p99= #end
+#if($qrange == "1") qrange= #end / autoname;
+#if($freqVariable.size() > 0) freq #foreach($item in $freqVariable)$item #end; #end
+#if($weightVariable.size() > 0) weight #foreach($item in $weightVariable)$item #end; #end
+#if($byVariables.size() > 0)
+    by #foreach($item in $byVariables) $item #end;
+#end
+run;
+#end
+#end
+
+#foreach($item in $analysisVariables) 
+#if($byVariables.size() > 0) 
+    #set($byVars="") #foreach($item1 in $byVariables) #set($byVars="$byVars$item1 ") #end
+    #foreach($item1 in $byVariables) #if(!$foreach.hasNext) #set($lastByVar=$item1) #end #end
+    #set($num_byvars=$byVariables.size())
+
+/* $commentGenerate */
+%let num_level=0;
+data WORK.level(keep=$byVars unique_level);
+    set WORK.TempSorted2236 end=lastobs;
+    retain unique_level 0;
+    by $byVars;
+    if last.$lastByVar then do;
+        unique_level+1;
+        output;
+    end;
+    if lastobs then call symputx('num_level', strip(put(unique_level, best.)),'l');    
+run;
+%byGroupHistobox(data=WORK.TempSorted2236, level=WORK.level, num_level=&num_level, byVars=$byVars, num_byvars=$num_byvars, avar=$item);
+#else  ##no by groups
+#if($statsSelected=="1")
+    #if($comboPlotInset == "1")  
+    /* $commentInset */
+    data _null_;
+        set #if($outputDS=="1") $outputDSName #else WORK.TempOutputDS6221 #end;
+        #if($mean == "1") call symputx("__mean",strip(${item}_Mean),'l'); #end
+        #if($std == "1") call symputx("__std",strip(${item}_StdDev),'l'); #end
+        #if($min == "1") call symputx("__min",strip(${item}_Min),'l'); #end
+        #if($max == "1") call symputx("__max",strip(${item}_Max),'l'); #end
+        #if($median == "1" || $median1 == "1") call symputx("__median",strip(${item}_Median),'l'); #end
+        #if($nobs == "1") call symputx("__n",strip(${item}_N),'l'); #end
+        #if($missing == "1") call symputx("__nmiss",strip(${item}_NMiss),'l'); #end
+        #if($stdErr == "1") call symputx("__stderr",strip(${item}_StdErr),'l'); #end
+        #if($variance == "1") call symputx("__var",strip(${item}_Var),'l'); #end
+        #if($mode == "1") call symputx("__mode",strip(${item}_Mode),'l'); #end
+        #if($range == "1") call symputx("__range",strip(${item}_Range),'l'); #end
+        #if($sum == "1") call symputx("__sum",strip(${item}_Sum),'l'); #end
+        #if($sumWeights == "1") call symputx("__sumwgt",strip(${item}_SumWgt),'l'); #end
+        #if($conf == "1") call symputx("__lclm",strip(${item}_LCLM),'l'); call symputx("__uclm",strip(${item}_UCLM),'l'); #end
+        #if($coef == "1") call symputx("__cv",strip(${item}_CV),'l'); #end
+        #if($skewness == "1") call symputx("__skewness",strip(${item}_Skew),'l'); #end
+        #if($kurtosis == "1") call symputx("__kurtosis",strip(${item}_Kurt),'l'); #end
+        #if($P1 == "1") call symputx("__p1",strip(${item}_P1),'l'); #end
+        #if($P5 == "1") call symputx("__p5",strip(${item}_P5),'l'); #end
+        #if($P10 == "1") call symputx("__p10",strip(${item}_P10),'l'); #end
+        #if($Q1 == "1") call symputx("__q1",strip(${item}_Q1),'l'); #end
+        #if($Q3 == "1") call symputx("__q3",strip(${item}_Q3),'l'); #end
+        #if($P90 == "1") call symputx("__p90",strip(${item}_P90),'l'); #end
+        #if($P95 == "1") call symputx("__p95",strip(${item}_P95),'l'); #end
+        #if($P99 == "1") call symputx("__p99",strip(${item}_P99),'l'); #end
+        #if($qrange == "1") call symputx("__qrange",strip(${item}_QRange),'l'); #end
+        stop;                                                         
+    run;
+    #end
+#end  ##end inset statistics block
+proc sgrender data=$DATASOURCE template=histobox;
+    dynamic AVAR="$item" ByVarInfo=""
+#if($statsSelected=="1")
+#if($comboPlotInset == "1")  
+    #if($mean == "1") __mean="&__mean" #end
+    #if($std == "1") __std="&__std" #end
+    #if($min == "1") __min="&__min" #end
+    #if($max == "1") __max="&__max" #end
+    #if($median == "1" || $median1 == "1") __median="&__median" #end
+    #if($nobs == "1") __n="&__n" #end
+    #if($missing == "1") __nmiss="&__nmiss" #end
+    #if($stdErr == "1") __stderr="&__stderr" #end
+    #if($variance == "1") __var="&__var" #end
+    #if($mode == "1") __mode="&__mode" #end
+    #if($range == "1") __range="&__range" #end
+    #if($sum == "1") __sum="&__sum" #end
+    #if($sumWeights == "1") __sumwgt="&__sumwgt" #end
+    #if($conf == "1") __lclm="&__lclm" __uclm="&__uclm" #end
+    #if($coef == "1") __cv="&__cv" #end
+    #if($skewness == "1") __skewness="&__skewness" #end
+    #if($kurtosis == "1") __kurtosis="&__kurtosis" #end
+    #if($P1 == "1") __p1="&__p1" #end
+    #if($P5 == "1") __p5="&__p5" #end
+    #if($P10 == "1") __p10="&__p10" #end
+    #if($Q1 == "1") __q1="&__q1" #end
+    #if($Q3 == "1") __q3="&__q3" #end
+    #if($P90 == "1") __p90="&__p90" #end
+    #if($P95 == "1") __p95="&__p95" #end
+    #if($P99 == "1") __p99="&__p99" #end
+    #if($qrange == "1") __qrange="&__qrange" #end
+#end
+#end  ##end inset statistics block
+;
+run;    
+#end  ##end byVar block
+#end
+#end
+######## Histogram and Box plot ########
+
+######## Clean up ########
+#if($byVariables.size() > 0 || (!($outputDS=="1") && $comboPlotInset=="1") || $comboPlot=="1" || $boxPlot=="1")
+proc datasets library=WORK noprint;
+    delete #if($byVariables.size() > 0) TempSorted2236 
+                #if($comboPlot=="1") level tempData #end 
+           #else 
+                #if($boxPlot=="1") TempSorted2236 #end
+                #if($comboPlot=="1") tempData #end 
+           #end 
+    #if(!($outputDS=="1") && $comboPlotInset=="1") TempOutputDS6221 #end;
+run;
+#end
+######## Clean up ########
+]]>
+    </CodeTemplate>
+</Task>
