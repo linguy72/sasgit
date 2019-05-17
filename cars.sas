@@ -1,29 +1,25 @@
 proc sql
 select * from sashelp.class; /* from  sasgit001 */
 run; 
-dudefreak12345678989
-editas  df
+1
+2
+2
+3
+3
+4
+5
+5
+6
+6
+6
+6
+6
+6kjlkjkljlk
+34
+345
+45
 
-blah
-asdf
-asdf
-asdf
-
-sshtest1
-
-az1
-
-proc print data=sashelp.cars; where make="Jaguar"; run;
-
-jennifer;
-jennifer;
-
-warnings
-lax
-
-more and more changes;
-change;
-dude;
-updates;
-freak
-https
+13
+31
+34
+31
