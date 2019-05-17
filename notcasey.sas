@@ -4,6 +4,6 @@ histogram msrp / fillattrs=(color=red);
 density msrp / lineattrs=(color=blue);
 run;
 
-title "listing of class5";
+title "listing of class";
 proc print data=sashelp.class;
 run;
