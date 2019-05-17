@@ -8,6 +8,7 @@ title "listing of class";
 proc print data=sashelp.class;
 run;
 
-title "means of class";
+title "means of class where age less than 14";
 proc means data=sashelp.class;
+where age < 14;
 run;
