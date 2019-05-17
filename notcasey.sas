@@ -7,3 +7,7 @@ run;
 title "listing of class";
 proc print data=sashelp.class;
 run;
+
+title "means of class";
+proc means data=sashelp.class;
+run;
