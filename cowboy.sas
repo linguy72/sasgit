@@ -10,9 +10,9 @@ data hat;
    end;
 run;
 title1 c=white f=swiss 'The Cowboy Hat';
-title2 h=2 angle=90 ' ';
+title2 h=2 angle=90 ' 'df;
 
 proc g3d data=hat;
    plot y*x=z / ctop=yellow ctext=white;
 run; run;run;
-asdf1234
+asdf1234asf
