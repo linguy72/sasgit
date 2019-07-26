@@ -1,3 +1,3 @@
 proc print data=sashelp.class;
-var name age;
+var name age height;
 run;
